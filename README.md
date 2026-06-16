@@ -35,6 +35,9 @@ The monthly schedule editor currently runs on Firebase Realtime Database. I'm mi
 
 [alacant-nordeste.com](https://alacant-nordeste.com) — login required
 
+## 📊 Architecture Diagram
+
+```mermaid
 graph TD
     %% Stili Generali
     classDef user fill:#2ecc71,stroke:#27ae60,stroke-width:2px,color:#fff;
@@ -54,19 +57,19 @@ graph TD
     Firebase[(🔥 Firebase DB)] :::external
 
     %% Flusso DevOps CI/CD
-    subgraph Pipeline CI/CD
+    subgraph Pipeline CI/CD [Pipeline CI/CD]
         Developer -->|1. git push| GitHub
         GitHub -->|2. Webhook / Auto-Deploy| Amplify
     end
 
     %% Flusso Utente e Traffico Rete
-    subgraph Routing e Connessione
+    subgraph Routing e Connessione [Routing e Connessione]
         User -->|3. Naviga al dominio| Route53
         Route53 -->|4. Risolve DNS| Amplify
     end
 
     %% Flusso Autenticazione (PKCE) e Autorizzazione
-    subgraph Flusso Sicurezza & Dati (OAuth 2.0 PKCE)
+    subgraph Flusso Sicurezza & Dati [Flusso Sicurezza & Dati - OAuth 2.0 PKCE]
         User -->|5. Richiede Login| Cognito
         Cognito -->|6. Scambia codice per token JWT| User
         User -->|7. Invia ID Token| IdentityPool
@@ -79,4 +82,4 @@ graph TD
     style Pipeline CI/CD fill:#f9f9f9,stroke:#e67e22,stroke-dasharray: 5 5
     style Routing e Connessione fill:#f9f9f9,stroke:#2980b9,stroke-dasharray: 5 5
     style Flusso Sicurezza & Dati fill:#f9f9f9,stroke:#2ecc71,stroke-dasharray: 5 5
-
+```
