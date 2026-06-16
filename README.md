@@ -41,13 +41,13 @@ The monthly schedule editor currently runs on Firebase Realtime Database. I'm mi
 
 ```mermaid
 graph LR
-    %% 1. Flusso di Sviluppo (CI/CD)
+    %% 1. Development Workflow (CI/CD)
     Dev([ Developer]) -->|git push| GitHub[ GitHub]
-    GitHub -->|CI/CD| Amplify[ AWS Amplify]
+    GitHub -->|CI/CD Deployment| Amplify[ AWS Amplify]
 
-    %% 2. Flusso Utente Sequenziale (Sequenza di Rete e Codice)
-    User([ User]) -->|1. Request Site| Route53[ Route 53]
-    Route53 -->|2. Resolve DNS| Amplify
+    %% 2. Sequential User Flow (Network & Code Execution)
+    User([ User]) -->|1. Requests Site| Route53[ Route 53]
+    Route53 -->|2. Serves App UI| Amplify
     Amplify -->|3. login / handleCallback| Cognito[ AWS Cognito]
     Cognito -->|4. initAWS / Identity Pool| S3[ AWS S3]
     S3 -->|5. Real-time Sync| Firebase[ Firebase DB]
