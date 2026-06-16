@@ -38,42 +38,18 @@ The monthly schedule editor currently runs on Firebase Realtime Database. I'm mi
 ## 📊 Architecture Diagram
 
 ```mermaid
-graph TD
-    %% Nodi Principali con testo protetto da virgolette
-    Developer(["💻 Developer"])
-    GitHub["🐙 GitHub Repository"]
-    Amplify["🚀 AWS Amplify Hosting"]
-    Route53["🌐 AWS Route 53"]
-    User(["👥 End User"])
-    Cognito["🔐 AWS Cognito Hosted UI"]
-    IdentityPool["🔑 Cognito Identity Pools"]
-    S3[("🗄️ AWS S3 Buckets")]
-    Firebase[("🔥 Firebase Realtime DB")]
+graph LR
+    %% Flusso di Sviluppo
+    Dev([ Developer]) -->|git push| GitHub[ GitHub]
+    GitHub -->|CI/CD| Amplify[ AWS Amplify]
 
-    %% Flusso DevOps CI/CD
-    subgraph Pipeline_CICD ["Pipeline CI/CD"]
-        Developer -->|1. git push| GitHub
-        GitHub -->|2. Auto-Deploy| Amplify
-    end
-
-    %% Flusso Utente e Traffico Rete
-    subgraph Routing ["Routing & Connessione"]
-        User -->|3. Accesses domain| Route53
-        Route53 -->|4. Resolves DNS| Amplify
-    end
-
-    %% Flusso Autenticazione (PKCE) e Autorizzazione
-    subgraph Security_Data ["Security & Data (OAuth 2.0 PKCE)"]
-        User -->|5. Login request| Cognito
-        Cognito -->|6. Exchanges PKCE code for JWT| User
-        User -->|7. Sends ID Token| IdentityPool
-        IdentityPool -->|8. Grants temporary IAM keys| User
-        User -->|9. Requests Pre-signed URL| S3
-        User -->|10. Syncs schedule data| Firebase
-    end
-
-    %% Collegamento degli stili base di Mermaid
-    style Pipeline_CICD fill:#f9f9f9,stroke:#e67e22,stroke-width:1px,stroke-dasharray: 5 5
-    style Routing fill:#f9f9f9,stroke:#2980b9,stroke-width:1px,stroke-dasharray: 5 5
-    style Security_Data fill:#f9f9f9,stroke:#2ecc71,stroke-width:1px,stroke-dasharray: 5 5
+    %% Flusso Utente
+    User([ User]) -->|1. Browses site| Route53[ Route 53]
+    Route53 --> Amplify
+    
+    %% Flusso Sicurezza e Dati
+    User -->|2. Auth Flow PKCE| Cognito[ Cognito]
+    User -->|3. Secure Access| S3[ S3 Buckets]
+    User -->|4. Real-time Sync| Firebase[ Firebase DB]
 ```
+
