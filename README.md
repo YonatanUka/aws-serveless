@@ -37,21 +37,21 @@ The monthly schedule editor currently runs on Firebase Realtime Database. I'm mi
 [Live Project Demo](https://alacant-nordeste.com) — authentication required
 
 
-## Architecture Diagram
+## 📊 Architecture Diagram
 
 ```mermaid
 graph LR
-    %% Flusso di Sviluppo
+    %% 1. Flusso di Sviluppo (CI/CD)
     Dev([ Developer]) -->|git push| GitHub[ GitHub]
     GitHub -->|CI/CD| Amplify[ AWS Amplify]
 
-    %% Flusso Utente
-    User([ User]) -->|1. Browses site| Route53[ Route 53]
-    Route53 --> Amplify
-    
-    %% Flusso Sicurezza e Dati
-    User -->|2. Auth Flow PKCE| Cognito[ Cognito]
-    User -->|3. Secure Access| S3[ S3 Buckets]
-    User -->|4. Real-time Sync| Firebase[ Firebase DB]
+    %% 2. Flusso Utente Sequenziale (Sequenza di Rete e Codice)
+    User([ User]) -->|1. Request Site| Route53[ Route 53]
+    Route53 -->|2. Resolve DNS| Amplify
+    Amplify -->|3. login / handleCallback| Cognito[ AWS Cognito]
+    Cognito -->|4. initAWS / Identity Pool| S3[ AWS S3]
+    S3 -->|5. Real-time Sync| Firebase[ Firebase DB]
 ```
+
+
 
