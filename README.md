@@ -35,7 +35,7 @@ The monthly schedule editor currently runs on Firebase Realtime Database. I'm mi
 
 [alacant-nordeste.com](https://alacant-nordeste.com) — login required
 
-## 📊 Architecture Diagram
+## Architecture Diagram
 
 ```mermaid
 graph LR
