@@ -1,4 +1,4 @@
-# Alacant-Nordeste
+# Production-Ready AWS Serverless Web Application
 
 A serverless web app I built for a private organization to manage documents, meeting schedules, and announcements replacing a WhatsApp group and scattered PDF files.
 
@@ -31,9 +31,11 @@ Users are assigned to Cognito groups (admin, programas, audio, acomodadores, etc
 
 The monthly schedule editor currently runs on Firebase Realtime Database. I'm migrating it to DynamoDB to keep the whole stack on AWS.
 
+
 # Live
 
-[alacant-nordeste.com](https://alacant-nordeste.com) — login required
+[Live Project Demo](https://alacant-nordeste.com) — authentication required
+
 
 ## Architecture Diagram
 
