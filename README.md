@@ -39,47 +39,41 @@ The monthly schedule editor currently runs on Firebase Realtime Database. I'm mi
 
 ```mermaid
 graph TD
-    %% Stili Generali
-    classDef user fill:#2ecc71,stroke:#27ae60,stroke-width:2px,color:#fff;
-    classDef dev fill:#e67e22,stroke:#d35400,stroke-width:2px,color:#fff;
-    classDef aws fill:#232F3E,stroke:#111,stroke-width:2px,color:#fff;
-    classDef external fill:#7f8c8d,stroke:#34495e,stroke-width:2px,color:#fff;
-
-    %% Nodi Principali
-    Developer([💻 Sviluppatore]) :::dev
-    GitHub[🐙 GitHub Repository] :::external
-    Amplify[🚀 AWS Amplify Hosting] :::aws
-    Route53[🌐 AWS Route 53] :::aws
-    User([👥 Utente Finale]) :::user
-    Cognito[🔐 AWS Cognito Hosted UI] :::aws
-    IdentityPool[🔑 Identity Pools] :::aws
-    S3[(🗄️ AWS S3 Buckets)] :::aws
-    Firebase[(🔥 Firebase DB)] :::external
+    %% Nodi Principali con testo protetto da virgolette
+    Developer(["💻 Developer"])
+    GitHub["🐙 GitHub Repository"]
+    Amplify["🚀 AWS Amplify Hosting"]
+    Route53["🌐 AWS Route 53"]
+    User(["👥 End User"])
+    Cognito["🔐 AWS Cognito Hosted UI"]
+    IdentityPool["🔑 Cognito Identity Pools"]
+    S3[("🗄️ AWS S3 Buckets")]
+    Firebase[("🔥 Firebase Realtime DB")]
 
     %% Flusso DevOps CI/CD
-    subgraph Pipeline CI/CD [Pipeline CI/CD]
+    subgraph Pipeline_CICD ["Pipeline CI/CD"]
         Developer -->|1. git push| GitHub
-        GitHub -->|2. Webhook / Auto-Deploy| Amplify
+        GitHub -->|2. Auto-Deploy| Amplify
     end
 
     %% Flusso Utente e Traffico Rete
-    subgraph Routing e Connessione [Routing e Connessione]
-        User -->|3. Naviga al dominio| Route53
-        Route53 -->|4. Risolve DNS| Amplify
+    subgraph Routing ["Routing & Connessione"]
+        User -->|3. Accesses domain| Route53
+        Route53 -->|4. Resolves DNS| Amplify
     end
 
     %% Flusso Autenticazione (PKCE) e Autorizzazione
-    subgraph Flusso Sicurezza & Dati [Flusso Sicurezza & Dati - OAuth 2.0 PKCE]
-        User -->|5. Richiede Login| Cognito
-        Cognito -->|6. Scambia codice per token JWT| User
-        User -->|7. Invia ID Token| IdentityPool
-        IdentityPool -->|8. Rilascia credenziali temporanee IAM| User
-        User -->|9. Richiede Pre-signed URL| S3
-        User -->|10. Sincronizzazione Calendario| Firebase
+    subgraph Security_Data ["Security & Data (OAuth 2.0 PKCE)"]
+        User -->|5. Login request| Cognito
+        Cognito -->|6. Exchanges PKCE code for JWT| User
+        User -->|7. Sends ID Token| IdentityPool
+        IdentityPool -->|8. Grants temporary IAM keys| User
+        User -->|9. Requests Pre-signed URL| S3
+        User -->|10. Syncs schedule data| Firebase
     end
 
-    %% Note di stile visive per i blocchi
-    style Pipeline CI/CD fill:#f9f9f9,stroke:#e67e22,stroke-dasharray: 5 5
-    style Routing e Connessione fill:#f9f9f9,stroke:#2980b9,stroke-dasharray: 5 5
-    style Flusso Sicurezza & Dati fill:#f9f9f9,stroke:#2ecc71,stroke-dasharray: 5 5
+    %% Collegamento degli stili base di Mermaid
+    style Pipeline_CICD fill:#f9f9f9,stroke:#e67e22,stroke-width:1px,stroke-dasharray: 5 5
+    style Routing fill:#f9f9f9,stroke:#2980b9,stroke-width:1px,stroke-dasharray: 5 5
+    style Security_Data fill:#f9f9f9,stroke:#2ecc71,stroke-width:1px,stroke-dasharray: 5 5
 ```
